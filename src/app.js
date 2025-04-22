@@ -1,8 +1,18 @@
 import express from "express";
+import fs from "fs";
 import db from "./database.js";
+import { validatePost } from "./utils/validateFields.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
+import swaggerUi from "swagger-ui-express";
+import helmet from "helmet";
+
+const swaggerDocument = JSON.parse(fs.readFileSync("./src/swagger.json", "utf-8"));
 
 const app = express();
 app.use(express.json());
+app.use(helmet());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
     res.status(200).send("API com Express e Node.js");
@@ -19,10 +29,12 @@ app.get("/posts", (req, res) => {
 });
 
 app.post("/posts", (req, res) => {
-    const { title, description, author } = req.body;
-    if (!title || !description || !author) {
-        return res.status(400).send("Todos os campos são obrigatórios: title, description, author");
+    const { error } = validatePost(req.body);
+    if (error) {
+        return res.status(400).json({ error: error.details[0].message });
     }
+
+    const { title, description, author } = req.body;
 
     try {
         const stmt = db.prepare("INSERT INTO posts (title, description, author) VALUES (?, ?, ?)");
