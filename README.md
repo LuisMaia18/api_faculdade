@@ -1,3 +1,8 @@
+# Não fui eu que ordenei a você? Seja forte e corajoso! Não se apavore nem desanime, 
+# pois o Senhor, o seu Deus, estará com você por onde você andar 
+# Josué 1:9
+
+
 # API Faculdade
 
 Esta é uma API desenvolvida com **Node.js** e **Express** para gerenciar posts. A API utiliza um banco de dados SQLite para armazenar os dados e inclui documentação interativa com **Swagger**.
