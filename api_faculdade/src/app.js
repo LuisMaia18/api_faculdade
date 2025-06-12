@@ -1,5 +1,6 @@
 import express from "express";
 import fs from "fs";
+import cors from "cors";
 import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
 import carsRoutes from "./routes/cars.routes.js";
@@ -8,6 +9,7 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 const swaggerDocument = JSON.parse(fs.readFileSync("./src/swagger.json", "utf-8"));
 
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 app.use(helmet());

@@ -1,4 +1,4 @@
-import { getAllCars, getCarById, createCar, updateCar, removeCar } from "../models/cars.model.js";
+import { getAllCars, getCarById, createCar, updateCar, removeCar, searchCars } from "../models/cars.model.js";
 
 export const getAllCarsController = (req, res) => {
     try {
@@ -69,5 +69,15 @@ export const deleteCarController = (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ error: "Erro ao excluir carro" });
+    }
+};
+
+export const searchCarsController = (req, res) => {
+    try {
+        const filters = req.query;
+        const cars = searchCars(filters);
+        res.status(200).json(cars);
+    } catch (error) {
+        res.status(500).json({ error: "Erro ao buscar carros com filtros" });
     }
 };

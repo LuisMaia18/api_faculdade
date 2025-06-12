@@ -23,3 +23,35 @@ export const removeCar = (id) => {
     const result = db.prepare("DELETE FROM cars WHERE id = ?").run(id);
     return result.changes > 0;
 };
+
+export const searchCars = (filters) => {
+    let query = "SELECT * FROM cars WHERE 1=1";
+    const params = [];
+
+    if (filters.make) {
+        query += " AND make LIKE ?";
+        params.push(`%${filters.make}%`);
+    }
+    if (filters.model) {
+        query += " AND model LIKE ?";
+        params.push(`%${filters.model}%`);
+    }
+    if (filters.year) {
+        query += " AND year = ?";
+        params.push(filters.year);
+    }
+    if (filters.color) {
+        query += " AND color LIKE ?";
+        params.push(`%${filters.color}%`);
+    }
+    if (filters.minPrice) {
+        query += " AND price >= ?";
+        params.push(filters.minPrice);
+    }
+    if (filters.maxPrice) {
+        query += " AND price <= ?";
+        params.push(filters.maxPrice);
+    }
+
+    return db.prepare(query).all(...params);
+};
