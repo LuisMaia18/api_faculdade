@@ -14,7 +14,11 @@
                 "summary": "Lista todos os carros",
                 "responses": {
                     "200": {
-                        "description": "Lista de carros"
+                            "description": "Lista de carros",
+                        "schema": {
+                            "type": "array",
+                            "items": { "$ref": "#/definitions/Car" }
+                        }
                     }
                 }
             },
@@ -25,21 +29,32 @@
                         "in": "body",
                         "name": "body",
                         "required": true,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "model": { "type": "string" },
-                                "brand": { "type": "string" },
-                                "year": { "type": "integer" },
-                                "color": { "type": "string" }
-                            },
-                            "required": ["model", "brand", "year", "color"]
-                        }
+                        "schema": { "$ref": "#/definitions/CarInput" }
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Carro criado com sucesso"
+                    "201": { "description": "Carro criado com sucesso" }
+                }
+            }
+        },
+        "/cars/search": {
+            "get": {
+                "summary": "Busca carros com filtros",
+                "parameters": [
+                    { "name": "make", "in": "query", "type": "string" },
+                    { "name": "model", "in": "query", "type": "string" },
+                    { "name": "year", "in": "query", "type": "integer" },
+                    { "name": "color", "in": "query", "type": "string" },
+                    { "name": "minPrice", "in": "query", "type": "number" },
+                    { "name": "maxPrice", "in": "query", "type": "number" }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de carros filtrada",
+                        "schema": {
+                            "type": "array",
+                            "items": { "$ref": "#/definitions/Car" }
+                        }
                     }
                 }
             }
@@ -48,75 +63,58 @@
             "get": {
                 "summary": "Busca um carro pelo ID",
                 "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "type": "integer"
-                    }
+                    { "name": "id", "in": "path", "required": true, "type": "integer" }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Detalhes do carro"
-                    },
-                    "404": {
-                        "description": "Carro não encontrado"
-                    }
+                    "200": { "description": "Detalhes do carro", "schema": { "$ref": "#/definitions/Car" } },
+                    "404": { "description": "Carro não encontrado" }
                 }
             },
             "put": {
                 "summary": "Atualiza um carro pelo ID",
                 "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "model": { "type": "string" },
-                                "brand": { "type": "string" },
-                                "year": { "type": "integer" },
-                                "color": { "type": "string" }
-                            },
-                            "required": ["model", "brand", "year", "color"]
-                        }
-                    }
+                    { "name": "id", "in": "path", "required": true, "type": "integer" },
+                    { "in": "body", "name": "body", "required": true, "schema": { "$ref": "#/definitions/CarInput" } }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Carro atualizado com sucesso"
-                    },
-                    "404": {
-                        "description": "Carro não encontrado"
-                    }
+                    "200": { "description": "Carro atualizado com sucesso" },
+                    "404": { "description": "Carro não encontrado" }
                 }
             },
             "delete": {
                 "summary": "Exclui um carro pelo ID",
                 "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "type": "integer"
-                    }
+                    { "name": "id", "in": "path", "required": true, "type": "integer" }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Carro excluído com sucesso"
-                    },
-                    "404": {
-                        "description": "Carro não encontrado"
-                    }
+                    "200": { "description": "Carro excluído com sucesso" },
+                    "404": { "description": "Carro não encontrado" }
                 }
             }
+        }
+    },
+    "definitions": {
+        "Car": {
+            "type": "object",
+            "properties": {
+                "id": { "type": "integer" },
+                "make": { "type": "string" },
+                "model": { "type": "string" },
+                "year": { "type": "integer" },
+                "color": { "type": "string" },
+                "price": { "type": "number" }
+            }
+        },
+        "CarInput": {
+            "type": "object",
+            "properties": {
+                "make": { "type": "string" },
+                "model": { "type": "string" },
+                "year": { "type": "integer" },
+                "color": { "type": "string" },
+                "price": { "type": "number" }
+            },
+            "required": ["make", "model", "year", "color", "price"]
         }
     }
 }
