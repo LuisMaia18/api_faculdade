@@ -21,3 +21,4 @@ push:
 push_main:
 	@echo "Pushing to main branch"
 	git push origin main
+	
