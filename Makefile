@@ -17,3 +17,8 @@ run_dev:
 push:
 	@echo "Pushing to git"
 	git push github lm
+
+push_main:
+	@echo "Pushing to main branch"
+	git push origin main
+	
