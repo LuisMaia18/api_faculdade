@@ -7,9 +7,13 @@ commit:
 	@echo "Committing to git"
 	git add .
 	git commit -a
-	git push github main
+	git push github lm
 
 .PHONY: run_dev
 
 run_dev:
 	 npx concurrently "cd api_faculdade && npm start" "cd carros-frontend/carros-frontend && PORT=3001 npm start"
+
+push:
+	@echo "Pushing to git"
+	git push github lm
