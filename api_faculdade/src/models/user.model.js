@@ -1,0 +1,1 @@
+// O model de usuário é definido e manipulado no repository, então este arquivo pode ser usado para exportar funções utilitárias ou permanecer vazio.
