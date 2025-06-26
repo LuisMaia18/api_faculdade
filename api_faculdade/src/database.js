@@ -10,7 +10,29 @@ db.exec(`
     year INTEGER NOT NULL,
     color TEXT NOT NULL,
     price REAL NOT NULL
-  )
+  );
+
+  CREATE TABLE IF NOT EXISTS owners (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    phone TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS brands (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    country TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS services (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    car_id INTEGER NOT NULL,
+    description TEXT NOT NULL,
+    date TEXT NOT NULL,
+    cost REAL NOT NULL,
+    FOREIGN KEY(car_id) REFERENCES cars(id)
+  );
 `);
 
 export default db;
