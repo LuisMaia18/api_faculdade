@@ -13,3 +13,7 @@ commit:
 
 run_dev:
 	 npx concurrently "cd api_faculdade && npm start" "cd carros-frontend/carros-frontend && PORT=3001 npm start"
+
+push:
+	@echo "Pushing to git"
+	git push github main
