@@ -7,7 +7,7 @@ commit:
 	@echo "Committing to git"
 	git add .
 	git commit -a
-	git push github lm
+	git push github main
 
 .PHONY: run_dev
 
